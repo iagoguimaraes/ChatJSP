@@ -5,10 +5,8 @@
  */
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,34 +18,41 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ChatServlet extends HttpServlet {
 
-    private static ArrayList<String> conversa = new ArrayList<String>();
+    private static ArrayList<Mensagem> conversa = new ArrayList<Mensagem>();
 
     protected void entrar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nickname = (String)request.getParameter("nickname");       
-        request.getSession().setAttribute("nickname", nickname);
-        conversa.add(nickname + " entrou na conversa");
+        String nickname = (String) request.getParameter("nickname");
+        Usuario usuario = new Usuario(nickname);
+        request.getSession().setAttribute("usuario", usuario);
+
+        Mensagem mensagem = new Mensagem(usuario, "entrou na conversa", new Date());
+        conversa.add(mensagem);
     }
-    
+
     protected void receberMensagens(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().setAttribute("conversa", conversa);        
+        request.getSession().setAttribute("conversa", conversa);
         request.getRequestDispatcher("WEB-INF/chat.jsp").forward(request, response);
     }
 
     protected void enviarMensagem(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nickname = (String)request.getSession().getAttribute("nickname");
-        String mensagem = (String)request.getParameter("mensagem");
-        conversa.add(nickname + ": " + mensagem);
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        String texto = (String) request.getParameter("mensagem");
+
+        Mensagem mensagem = new Mensagem(usuario, texto, new Date());
+        conversa.add(mensagem);
         request.getRequestDispatcher("WEB-INF/chat.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        entrar(request,response);
-        receberMensagens(request, response);     
+        if (request.getSession().getAttribute("usuario") == null) {
+            entrar(request, response);
+        }
+        receberMensagens(request, response);
     }
 
     @Override

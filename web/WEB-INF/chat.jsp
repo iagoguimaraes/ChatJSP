@@ -11,6 +11,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chat JSP</title>
+        <script>
+            setInterval(function() {
+                  window.location.href = 'Chat';
+                }, 10000); 
+        </script>
     </head>
     <body>
         <form method="POST" action="Chat">
@@ -21,7 +26,10 @@
         <h3>Conversa:</h3>
         <div id="conversa">
             <c:forEach items="${conversa}" var="mensagem">
-                <p>${mensagem}</p>
+                <p>
+                    <label>[${mensagem.data}] <b>${mensagem.usuario.nickName}:</b></label>
+                    <span>${mensagem.mensagem}</span>
+                </p>
             </c:forEach>
         </div>
     </body>
