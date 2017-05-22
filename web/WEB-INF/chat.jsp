@@ -11,10 +11,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chat JSP</title>
-        <script>
-            setInterval(function() {
+        <!-- <script>
+             setInterval(function() {
                   window.location.href = 'Chat';
-                }, 10000); 
+                }, 10000);
+        </script> -->
+        <script>
+            fetch('/ChatJSP/listarUsuarios')
+                .then(function(response){
+                    response.json().then(function(data) {
+                        console.log(data);
+                    });
+                });
         </script>
     </head>
     <body>

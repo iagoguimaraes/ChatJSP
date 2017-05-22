@@ -4,10 +4,19 @@
         <servlet-name>ChatServlet</servlet-name>
         <servlet-class>ChatServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>listarUsuariosServlet</servlet-name>
+        <servlet-class>listarUsuariosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ChatServlet</servlet-name>
         <url-pattern>/ChatServlet</url-pattern>
         <url-pattern>/Chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listarUsuariosServlet</servlet-name>
+        <url-pattern>/listarUsuariosServlet</url-pattern>
+        <url-pattern>/listarUsuarios</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ChatServlet extends HttpServlet {
 
     private static ArrayList<Mensagem> conversa = new ArrayList<Mensagem>();
+    public static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
     protected void entrar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,6 +27,8 @@ public class ChatServlet extends HttpServlet {
         Usuario usuario = new Usuario(nickname);
         request.getSession().setAttribute("usuario", usuario);
 
+        usuarios.add(usuario);
+        
         Mensagem mensagem = new Mensagem(usuario, "entrou na conversa", new Date());
         conversa.add(mensagem);
     }
